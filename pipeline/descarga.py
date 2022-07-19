@@ -14,6 +14,7 @@ DATOS_CULTURA_URL = {
 
 def descargar_archivos(datos_dict):
     # TODO: Agregar mensaje de descarga y error
+    dict_path_archivos = {}
     for nombre, url in datos_dict.items():
         r = requests.get(url, allow_redirects=True)
         date = datetime.now().strftime("%d-%m-%Y")
@@ -21,10 +22,18 @@ def descargar_archivos(datos_dict):
 
         p = Path(f"./data/{nombre}/{year}")
         p.mkdir(parents=True, exist_ok=True)
-        with (p / f"{nombre}-{date}.csv").open("wb") as file:
+
+        path_destino = p / f"{nombre}-{date}.csv"
+        with (path_destino).open("wb") as file:
             file.write(r.content)
+
+        dict_path_archivos[nombre] = path_destino
+
+    return dict_path_archivos
 
 
 if __name__ == "__main__":
     logging.info("Descargando archivos")
-    descargar_archivos(DATOS_CULTURA_URL)
+    path_archivo = descargar_archivos(DATOS_CULTURA_URL)
+
+    print(path_archivo)
