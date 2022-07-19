@@ -1,15 +1,23 @@
 import pandas as pd
 import numpy as np
-from sqlalchemy import create_engine, text
+from sqlalchemy import create_engine, text, exc
 from datetime import datetime
 from pipeline.config import DATABASE_URL
+from pipeline.config import logger
 
 
 def procesar_archivos(dict_path):
 
+    logger.info("Importando archivos descargados")
+
     museo = pd.read_csv(dict_path["museos"])
+    logger.info("Importacion museos completa")
+
     biblioteca = pd.read_csv(dict_path["bibliotecas"])
+    logger.info("Importacion bibliotecas completa")
+
     cine = pd.read_csv(dict_path["cines"])
+    logger.info("Importacion cines completa")
 
     # NORMALIZACION DE DATOS DE TABLAS
 
@@ -131,6 +139,8 @@ def procesar_archivos(dict_path):
 
     # PROCESAMIENTO PARA CREACION DE TABLA 1 : principal_cultura
 
+    logger.info("Creacion tabla 1 : principal_cultura")
+
     COLUMNAS_TABLA_1 = [
         "cod_localidad",
         "id_provincia",
@@ -154,7 +164,11 @@ def procesar_archivos(dict_path):
 
     tabla_1 = pd.concat([museo_1, biblioteca_1, cine_1])
 
+    logger.info("Tabla 1 : principal_cultura, creada")
+    logger.info(tabla_1.head())
     # PROCESAMIENTO PARA CREACION DE TABLA 2 : totales_cultura
+
+    logger.info("Creacion tabla 2 : totales_cultura")
 
     # Procesamiento para crear subtabla 'fuente'
 
@@ -207,7 +221,12 @@ def procesar_archivos(dict_path):
 
     tabla_2 = pd.concat([tabla_categoria, tabla_fuente, tabla_prov_cat])
 
+    logger.info("Tabla 2 : totales_cultura, creada")
+    logger.info(tabla_2.head())
+
     # PROCESAMIENTO PARA CREACION DE TERCERA TABLA : cines_detalle
+
+    logger.info("Creacion tabla 3 : cines_detalle")
 
     pantallas = cine.groupby("provincia")["pantallas"].sum()
     butacas = cine.groupby("provincia")["butacas"].sum()
@@ -220,7 +239,12 @@ def procesar_archivos(dict_path):
 
     tabla_3 = pd.merge(parte_1, espacio_incaa, on="provincia", how="left").reset_index()
 
+    logger.info("Tabla 3 : cines_detalle, creada")
+    logger.info(tabla_3.head())
+
     # INSERTAR DATOS EN BASE DE DATOS
+
+    logger.info("Insertar datos en base de datos")
 
     engine = create_engine(DATABASE_URL)
 
@@ -235,20 +259,30 @@ def procesar_archivos(dict_path):
 
     with engine.connect() as con:
         con.execute("delete from principal_cultura")
+
     tabla_1_fecha.to_sql(
         name="principal_cultura", con=engine, if_exists="append", index=False
     )
+
+    logger.info("Datos insertados en principal_cultura")
+
     with engine.connect() as con:
         con.execute("delete from totales_cultura")
+
     tabla_2_fecha.to_sql(
         name="totales_cultura", con=engine, if_exists="append", index=False
     )
 
+    logger.info("Datos insertados en totales_cultura")
+
     with engine.connect() as con:
         con.execute("delete from cines_detalle")
+
     tabla_3_fecha.to_sql(
         name="cines_detalle", con=engine, if_exists="append", index=False
     )
+
+    logger.info("Datos insertados en cines_detalle")
 
 
 if __name__ == "__main__":

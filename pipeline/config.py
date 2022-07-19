@@ -1,6 +1,8 @@
-from email.policy import default
 from decouple import config
+import logging
 
+
+LOG_LEVEL = config("LOG_LEVEL")
 DATABASE_URL = config("DATABASE_URL")
 URL_MUSEOS = config(
     "URL_MUSEOS",
@@ -14,3 +16,7 @@ URL_CINES = config(
     "URL_CINES",
     default="https://datos.cultura.gob.ar/dataset/37305de4-3cce-4d4b-9d9a-fec3ca61d09f/resource/392ce1a8-ef11-4776-b280-6f1c7fae16ae/download/cine.csv",
 )
+
+
+logger = logging
+logger.basicConfig(level=LOG_LEVEL)
