@@ -7,6 +7,22 @@ from pipeline.config import logger
 
 
 def procesar_archivos(dict_path):
+    """Procesa los archivos museos, bibliotecas y cines y los graba en una base de datos
+
+
+    Parameters
+    ----------
+    dict_path : dict
+        Diccionario con los path de los archivos: museos, bibliotecas y cines
+        Ejemplo:
+            {'museos': 'data/museos/2022-07/museos-19-07-2022.csv',
+            'bibliotecas': 'data/bibliotecas/2022-07/bibliotecas-19-07-2022.csv',
+            'cines': 'data/cines/2022-07/cines-19-07-2022.csv'}
+
+    Returns
+    -------
+    None
+    """
 
     logger.info("Importando archivos descargados")
 
@@ -283,14 +299,3 @@ def procesar_archivos(dict_path):
     )
 
     logger.info("Datos insertados en cines_detalle")
-
-
-if __name__ == "__main__":
-    # logging.info("procesar_archivos")
-    procesar_archivos(
-        {
-            "museos": "data/museos/2022-07/museos-18-07-2022.csv",
-            "bibliotecas": "data/bibliotecas/2022-07/bibliotecas-18-07-2022.csv",
-            "cines": "data/cines/2022-07/cines-18-07-2022.csv",
-        }
-    )
