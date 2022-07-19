@@ -2,7 +2,7 @@ from decouple import config
 import logging
 
 
-LOG_LEVEL = config("LOG_LEVEL")
+LOG_LEVEL = config("LOG_LEVEL", default="INFO")
 DATABASE_URL = config("DATABASE_URL")
 URL_MUSEOS = config(
     "URL_MUSEOS",

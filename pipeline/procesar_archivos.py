@@ -182,7 +182,12 @@ def procesar_archivos(dict_path):
 
     logger.info("Tabla 1 : principal_cultura, creada")
     logger.info(tabla_1.head())
+
     # PROCESAMIENTO PARA CREACION DE TABLA 2 : totales_cultura
+    # Para la creacion de la segunda tabla, se crearon 3 tablas auxiliares con columnas, categoria, subcategoria y cantidad de registros.
+    # En caso de querer saber el total por categoria, se debe buscar el campo  "total_pais" dentro de subcategoria ya que sumariza todos los registros.
+    # Por otro lado, en caso de querer saber la cantidad de registros por fuente, se puede filtrar por 'fuente' en el cammpo categoria y
+    # luego observar la cantidad de registros por cada fuente distinta.
 
     logger.info("Creacion tabla 2 : totales_cultura")
 

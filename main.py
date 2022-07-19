@@ -11,6 +11,7 @@ if __name__ == "__main__":
         "bibliotecas": URL_BIBLIOTECAS,
         "cines": URL_CINES,
     }
+
     rutas_archivos_dict = descargar_archivos(DATOS_CULTURA_URL)
 
     procesar_archivos(rutas_archivos_dict)
