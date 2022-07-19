@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from sqlalchemy import create_engine, text
 from datetime import datetime
+from pipeline.config import DATABASE_URL
 
 
 def procesar_archivos(dict_path):
@@ -221,7 +222,7 @@ def procesar_archivos(dict_path):
 
     # INSERTAR DATOS EN BASE DE DATOS
 
-    engine = create_engine("postgresql://user:pass@localhost:5432/culturagov")
+    engine = create_engine(DATABASE_URL)
 
     tabla_1_fecha = tabla_1
     tabla_1_fecha["actualizado"] = datetime.now()
