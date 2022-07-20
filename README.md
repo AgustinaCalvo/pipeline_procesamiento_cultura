@@ -27,7 +27,7 @@ pip install -r requirements.txt
 
 ###### Segundo paso
 
-_Copiar el archivo **.env** enviado via email en el directorio raiz y guargar usuario y password_
+_Copiar el archivo **.env** (se encuentra disponible en el repositorio a fines practicos, pero deberia haber sido compartido por otro medio) en el directorio raiz y guargar usuario y password_
 _El archivo .env contiene las siguientes variables de entorno:_
 
 ```
