@@ -27,11 +27,22 @@ pip install -r requirements.txt
 
 ###### Segundo paso
 
-_Copiar el archivo **.env** enviado via email en el directorio raiz_
+_Copiar el archivo **.env** enviado via email en el directorio raiz y guargar usuario y password_
+_El archivo .env contiene las siguientes variables de entorno:_
+
+```
+DATABASE_URL
+URL_MUSEOS
+URL_BIBLIOTECAS
+URL_CINES
+LOG_LEVEL
+```
 
 ###### Tercer paso
 
 _Ejecutar el container (se debe tener instalado docker)_
+_Este container crea una base de datos postgre en el cual van a ser almacenados los datos_
+_El usuario y password se encuentran en el archivo .env_
 
 ```
 docker run --name postgres-alkemy -e POSTGRES_PASSWORD=[insertar_password] -e POSTGRES_USER=[insertar_usuario] -e POSTGRES_DB=culturagov -p 5432:5432 -d postgres
@@ -46,6 +57,7 @@ python crear_tablas.py
 ```
 
 _Correr el archivo python main para bajar, procesar y agregar los datos a las tablas SQL_
+_Este .py debe ser ejecutado cada vez que se quiera actualizar las tablas con nueva información_
 
 ```
 python main.py
